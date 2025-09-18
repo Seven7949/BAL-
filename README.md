@@ -1,54 +1,69 @@
-# sol-auditor (MVP)
+# sol-auditor
 
-A minimal Smart Contract Auditor focused on static AST checks. This MVP scans Solidity source files for common issues (reentrancy, integer overflow for <0.8.0, unchecked low-level calls, tx.origin, delegatecall usage) and produces JSON + HTML reports.
+A lightweight security scanner for Solidity smart contracts.
 
-Optional: If you have Slither or Mythril installed, the CLI can call them to supplement findings.
+---
 
-## Quickstart
+## Quick Elevator Pitch
+I built a small security scanner that reads a smart-contract file and points out obvious, potentially dangerous coding mistakes — **like a metal detector for money-holding code**.  
+It’s fast, explains what’s wrong, and tells you how to fix it.
 
-1. Create virtualenv and install base deps:
+---
 
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+## 🧐 What is this?
+Think of a smart contract as a **digital vending machine** that holds money and enforces rules.  
+This tool is a basic **security guard** for that machine. It looks at the code and says things like:
 
-2. (Optional) Install Slither (requires pipx) and Mythril (optional heavy dependency):
+- “Hey — someone left the back door open.”  
+- “This part could overflow and be abused.”  
+- “You used a very risky trick here.”  
 
-```bash
-# recommended: use pipx for slither
-pipx install slither-analyzer
-# mythril via pip (may require OS deps)
-pip install mythril
-```
+👉 It doesn’t hack anything. It just inspects the code and writes a plain, easy-to-read report.
 
-3. Run the sample scan:
+---
 
-```bash
-PYTHONPATH=src python -m auditor.cli examples/vulnerable_contracts.sol --json report.json --html report.html
-```
+## 🔍 What it Detects
+It scans for five common mistakes that attackers love to exploit:
 
-4. Run tests:
+1. **Reentrancy risk** — calling an external contract before updating balances  
+   (like giving someone a key before locking the safe).  
+2. **Integer overflow/underflow** — math bugs in old Solidity versions  
+   (like saying `2 + 2 = -4`).  
+3. **Unchecked low-level calls** — using `.call` without verifying results  
+   (like wiring money without checking it arrived).  
+4. **`tx.origin` misuse** — bad authorization check  
+   (like letting the person who set up the machine decide who can take money).  
+5. **`delegatecall` usage** — running untrusted code inside your contract  
+   (like handing your keys to a stranger).
 
-```bash
-PYTHONPATH=src pytest -q
-```
+---
 
-## How to extend
+## ⚙️ How it Works
+1. **Reads the code** — opens your `.sol` file.  
+2. **Builds a map** of the code’s structure (AST = Abstract Syntax Tree, think “code map”).  
+3. **Runs checks** for the risky patterns above.  
+4. **Writes findings** into:  
+   - `report.json` (machine-readable)  
+   - `report.html` (human-friendly, pretty report)  
 
-- Add detectors under `src/auditor/detectors/`
-- Expand AST parsing/resolution for fewer false positives.
+💡 Analogy: It’s like a spellchecker that flags high-risk words in a legal contract. Not a lawyer — but a helpful assistant.
 
-## Notes
+---
 
-- Static AST detectors run by default.
-- Use `--slither` or `--mythril` flags to run optional backends if installed:
+## 💡 Why this Matters
+- Smart contracts control **real money**. Tiny bugs → **huge losses**.  
+- Automated scanning is **fast and repeatable**.  
+- Helps developers catch **obvious mistakes** before deployment.  
 
-```bash
-PYTHONPATH=src python -m auditor.cli examples/vulnerable_contracts.sol --slither --mythril --json report.json --html report.html
-```
+> It won’t replace a professional audit, but it clears out the dumb bugs that cause most disasters.
 
-- Heuristic static checks may produce false positives; review findings manually.
+---
+
+## 🖥️ Demo (What Judges See)
+1. Open a small vulnerable contract.  
+2. Run the scan:  
+   ```bash
+   PYTHONPATH=src python -m auditor.cli examples/vulnerable_contracts.sol \
+     --json report.json --html report.html
 
 
