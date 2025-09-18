@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "scanner": "sol-auditor v0.2",
+    "scanned_at": "2025-09-18T10:59:46.484358Z",
+    "target": "examples/vulnerable_contracts.sol"
+  },
+  "findings": [
+    {
+      "id": "R001",
+      "name": "Potential Reentrancy",
+      "severity": "High",
+      "description": "External call followed by state modification (checks-effects-interactions not followed).",
+      "file": "examples/vulnerable_contracts.sol",
+      "line": -1,
+      "evidence": "External call before state write",
+      "recommendation": "Use checks-effects-interactions or a reentrancy guard (nonReentrant)."
+    }
+  ]
+}

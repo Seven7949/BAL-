@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>sol-auditor report</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .high { color: #a00; }
+    .medium { color: #c60; }
+  </style>
+</head>
+<body>
+  <h1>sol-auditor report</h1>
+  <p>Scanned: 2025-09-18T10:59:46.484358Z</p>
+  <h2>Findings (1)</h2>
+  <ul>
+    
+      <li>
+        <strong>R001 - Potential Reentrancy</strong> <span class="high">(High)</span>
+        <div>File: examples/vulnerable_contracts.sol at line -1</div>
+        <div>External call followed by state modification (checks-effects-interactions not followed).</div>
+        <div><em>Recommendation:</em> Use checks-effects-interactions or a reentrancy guard (nonReentrant).</div>
+      </li>
+    
+  </ul>
+</body>
+</html>

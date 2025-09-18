@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>sol-auditor report</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .high { color: #a00; }
+    .medium { color: #c60; }
+    .low { color: #0a0; }
+    li { margin-bottom: 12px; }
+    pre { background:#f4f4f4; padding:10px; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <h1>sol-auditor report</h1>
+  <p>Scanned: {{ meta.scanned_at }}</p>
+  <h2>Findings ({{ findings|length }})</h2>
+  <ul>
+    {% for f in findings %}
+      <li>
+        <strong>{{ f.id }} - {{ f.name }}</strong> <span class="{{ f.severity|lower }}">({{ f.severity }})</span>
+        <div>File: {{ f.file }} at line {{ f.line }}</div>
+        <div>{{ f.description }}</div>
+        {% if f.evidence %}
+          <div><em>Evidence:</em> <pre>{{ f.evidence }}</pre></div>
+        {% endif %}
+        <div><em>Recommendation:</em> {{ f.recommendation }}</div>
+      </li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
+

@@ -1,0 +1,8 @@
+[tool.poetry]
+name = "sol-auditor"
+version = "0.1.0"
+description = "MVP smart contract static auditor"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
